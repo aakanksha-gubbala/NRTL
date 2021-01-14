@@ -3,8 +3,6 @@
 % tau_ij = A_ij + B_ij / T
 % G_ji = exp(-alpha_ji tau_ji)
 
-% ln gamma_i = sum1 / sum2 + sum5 [= (sum3 (tau_ij - sum4 / sum2))]
-
 function gamma = NRTL(x, T)
     % Enter x as a 1x3 matrix and T is a single variable
     
@@ -36,10 +34,12 @@ function gamma = NRTL(x, T)
     sum6 = zeros(1, 3);
 
     for i = 1:3
+        s6 = 0;
         for j = 1:3
-           sum6(i) = (G(i, j) * x(j) ./ (x * G(:, j))) * (tau(i, j) - sum1(i) / (x * G(:, j)));
+           s6 = s6 + (G(i, j) * x(j) ./ (x * G(:, j))) * (tau(i, j) - sum1(i) / (x * G(:, j)));
         end
+        sum6(i) = s6;
     end
 
-    gamma = exp(sum1 ./ sum2 + sum6);
+    gamma = exp((sum1 ./ sum2) + sum6);
 end
