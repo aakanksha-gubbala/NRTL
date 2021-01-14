@@ -1,1 +1,1 @@
-# nrtl
+# Non-Random Two Liquid (NRTL) Model
